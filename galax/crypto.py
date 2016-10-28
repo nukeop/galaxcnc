@@ -10,14 +10,16 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 logger = logging.getLogger(__name__)
 
-KEY_FILE = "key.pem"
+PRIV_KEY_FILE = "privkey.pem"
+PUB_KEY_FILE = "pubkey.pem"
+
 
 class Crypto(object):
     """Handles server's cryptography.
     Stores a public/private key pair and saves/loads it to/from the disk.
     Can sign, encrypt, and decrypt messages.
     """
-    def __init__(self, keyfile=KEY_FILE):
+    def __init__(self, keyfile=PRIV_KEY_FILE):
         if os.path.exists(keyfile):
             logger.info("Loading a key from {}".format(keyfile))
             with open(keyfile, 'rb') as keyfile:
@@ -42,6 +44,9 @@ class Crypto(object):
                 keyfile.write(pem)
 
             self.public_key = self.private_key.public_key()
+            pubpem = self.public_key_as_text()
+            with open(PUB_KEY_FILE, 'wb') as keyfile:
+                keyfile.write(pubpem)
 
 
     def private_key_as_text(self):
