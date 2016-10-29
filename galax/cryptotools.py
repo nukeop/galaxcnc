@@ -3,6 +3,7 @@ handling cryptography, which is especially useful when writing small workers
 that do not need the full functionality of crypto.py.
 """
 
+import binascii
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes, serialization
@@ -46,3 +47,19 @@ def deserialize_public_key(data):
         data,
         backend=default_backend()
     )
+
+
+def encrypt(data, pubkey):
+    """Encrypts data with a public key and returns ciphertext.
+    The ciphertext is converted to hexadecimal form from raw bytes.
+    """
+    data = data.encode('utf-8')
+    ciphertext = pubkey.encrypt(
+        data,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA1()),
+            algorithm=hashes.SHA1(),
+            label=None
+        )
+    )
+    return binascii.hexlify(ciphertext)

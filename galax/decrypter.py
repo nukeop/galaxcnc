@@ -21,6 +21,7 @@ class Decrypter(object):
         if len(self.msgs[user]) == self.msg_limit:
             msg = "".join(self.msgs[user])
             msg = self.server.crypto.decrypt(msg)
+            del self.msgs[user]
             return (user, msg)
 
         return None
