@@ -1,4 +1,4 @@
-# galaxcnc
+# galaxcnc [![Codacy Badge](https://api.codacy.com/project/badge/Grade/eb41c355b7ba4fb880fc56dcf0ee8699)](https://www.codacy.com/app/nukeop/galaxcnc?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=nukeop/galaxcnc&amp;utm_campaign=Badge_Grade) [![Code Health](https://landscape.io/github/nukeop/galaxcnc/master/landscape.svg?style=flat)](https://landscape.io/github/nukeop/galaxcnc/master)
 Galax Command &amp; Control server using IRC as backend for exchanging encrypted communications.
 
 ## Introduction
