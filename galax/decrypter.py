@@ -18,10 +18,13 @@ class Decrypter(object):
         except KeyError:
             self.msgs[user] = [msg]
 
-        if len(self.msgs[user]) == self.msg_limit:
-            msg = "".join(self.msgs[user])
-            msg = self.server.crypto.decrypt(msg)
-            del self.msgs[user]
-            return (user, msg)
+        try:
+            if len(self.msgs[user]) == self.msg_limit:
+                msg = "".join(self.msgs[user])
+                msg = self.server.crypto.decrypt(msg)
+                del self.msgs[user]
+                return (user, msg)
+        except:
+            logger.debug("Could not decrypt the message from {}".format(user))
 
         return None
