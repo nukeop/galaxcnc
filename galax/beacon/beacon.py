@@ -1,4 +1,6 @@
 import argparse
+import base64
+import json
 import random
 import string
 import time
@@ -64,7 +66,10 @@ class GalaxBeacon(object):
 
     def send_encrypted(self, msg):
         msg = encrypt(msg, self.pubkey).decode('utf-8')
-        parts = galax.util.chunks(msg, 256)
+
+        # Divide into 128-byte chunks, wrap in json, and encode with base64
+        parts = list(galax.util.chunks(msg, 128))
+        parts = [base64.urlsafe_b64encode(json.dumps({'total':len(parts), str(i): part}).encode('utf-8')) for (i, part) in enumerate(parts)]
 
         while not (self.is_connected and self.is_joined):
             time.sleep(1)
