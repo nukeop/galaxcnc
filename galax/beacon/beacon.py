@@ -70,17 +70,18 @@ class GalaxBeacon(object):
         msg = encrypt(msg, self.pubkey).decode('utf-8')
 
         #Generate an id
-        hash = binascii.hexlify(os.urandom(16))
+        hash = ''.join([random.choice(string.ascii_letters) for x in range(8)])
 
         # Divide into 128-byte chunks, wrap in json, and encode with base64
         parts = list(galax.util.chunks(msg, 128))
         parts = [base64.urlsafe_b64encode(json.dumps(
             {
-                'id': hash.decode('utf-8'),
+                'id': hash,
+                'part': i,
                 'total':len(parts),
-                str(i): part
+                'content': part
             }).encode('utf-8')
-            ).decode('utf-8') for (i, part) in enumerate(parts)]
+        ).decode('utf-8') for (i, part) in enumerate(parts)]
 
 
         while not (self.is_connected and self.is_joined):
